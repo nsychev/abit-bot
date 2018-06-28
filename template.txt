@@ -1,0 +1,10 @@
+Подано *{enrolled}* заявлений БВИ
+
+[FAQ для абитуриента](https://ctd.page.link/faq)
+
+Всего *{submitted}* заявлений
+Проходной балл — *{passing}*
+
+Обновлено: *{updated}*
+по данным [abit.ifmo.ru](https://abit.ifmo.ru/bachelor/rating_rank/all/181/)
+

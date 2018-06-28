@@ -35,4 +35,12 @@ def generate_message():
     else:
         passing = data[119]["points"]
     
-    return "Подано *{}* заявлений БВИ\nВсего *{}* заявлений\nПроходной балл — *{}*\n\n_Обновлено: {}_\nпо данным [abit.ifmo.ru](https://abit.ifmo.ru/bachelor/rating_rank/all/181/)".format(enrolled, submitted, passing, (datetime.now() + timedelta(hours=3)).strftime("%H:%M"))
+    with open("template.txt") as f:
+        template = f.read()
+
+    return template.format(
+            enrolled=enrolled, 
+            submitted=submitted, 
+            passing=passing, 
+            updated=(datetime.now() + timedelta(hours=3)).strftime("%H:%M")
+    )
