@@ -5,6 +5,8 @@
 Всего *{submitted}* заявлений
 Проходной балл — *{passing}*
 
-Обновлено: *{updated}*
-по данным [abit.ifmo.ru](https://abit.ifmo.ru/bachelor/rating_rank/all/181/)
+_Обновлено: {updated}
+по данным_ [abit.ifmo.ru](https://abit.ifmo.ru/bachelor/rating_rank/all/181/)
+
+[Код бота](https://github.com/nsychev/abit-bot) от @nsychev
 
