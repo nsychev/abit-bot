@@ -43,6 +43,12 @@ def main():
     client = MongoClient("db", 27017)
     db = client.db
 
+    categories = {
+        "без вступительных испытаний": "olymp",
+        "на бюджетное место в пределах особой квоты": "quota",
+        "по общему конкурсу": "exams"
+    }
+
     while True:     
         try:
             ranking = fetcher.get(RANKING_URL)[2:] # cut header off
@@ -59,7 +65,7 @@ def main():
                     {"full_name": full_name},
                     {"$set": {
                         "full_name": full_name,
-                        "category": CATEGORIES.get(category, category),
+                        "category": categories.get(category, category),
                         "exam_type": exam_type,
                         "results": {"math": safe_int(math), "cs": safe_int(cs), "rus": safe_int(rus), "ach": safe_int(ach)},
                         "has_orig": "Да" in has_orig,
