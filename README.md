@@ -1,6 +1,6 @@
 # Бот приемной кампании
 
-Бот, который показывает статистику приема на кафедру КТ в 2018 году. Написан на Python 3, использует текстовые файлы в качестве БД и `lxml` для парсинга HTML.
+Бот, который показывает статистику приема на кафедру КТ в 2018 году. Написан на Python 3, использует MongoDB и BeautifulSoup.
 
 ## Деплой
 
@@ -8,30 +8,28 @@
 
 2. Узнай свой ID в Telegram (например, у `@get_id_bot`)
 
-3. Создай файл `config.py`, указав там токен и ID:
+3. Склонируй себе репозиторий: `git clone https://github.com/nsychev/abit-bot.git`
+
+4. Создай файл `bot/config.py`, указав там всё необходимое для бота:
 
 ```python
-TOKEN = "123456789:QWERTYUIOPasdfghjklZXCVBNM_12345678"
+TOKEN = "123456789:QWERTYUIOPasdfghjkl123456789ZXCVBNM"
 ADMIN_ID = 97631681
+
+STATS_URL_BUDGET = "http://abit.ifmo.ru/bachelor/statistics/applications/11000181/"
+STATS_URL_PAID = "http://abit.ifmo.ru/bachelor/statistics/applications/12000181/"
+RANKING_URL = "http://abit.ifmo.ru/bachelor/rating_rank/all/181/"
 ```
 
-4. Установи [Python 3](https://python.org/) и библиотеку `lxml`: `pip3 install lxml`
+5. Установи [Docker](https://docs.docker.com/install/) и [docker-compose](https://docs.docker.com/compose/install/)
 
-5. Склонируй себе репозиторий: `git clone https://github.com/nsychev/abit-bot.git`
+6. Запусти бота: 
 
-6. Запусти параллельно два скрипта:
+```bash
+docker-compose up --build -d
+```
 
-  - `bot.py` — лонгполл-листенер, слушает команды `/start` (в личке) и `/send` (от админа, где угодно)
-  - `sender.py` — каждые 2 минуты заходит на `abit.ifmo.ru`, скачивает результаты и обновляет все сообщения
-
-## TODO
-
-Эти фичи когда-нибудь появятся. Или нет…
-
-- [ ] перейти на какую-нибудь БД для хранения чатов
-- [ ] использовать Docker
-- [ ] отдавать ссылку на FAQ и всякие полезные штуки на /start
-- [ ] добавить расширенную стату в ЛС
+7. Чтобы получить обновляемую статистику, напиши `/stats` в чат
 
 ----
 
