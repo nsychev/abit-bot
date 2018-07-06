@@ -81,8 +81,8 @@ def main():
             
             for task in db.tasks.find():
                 bot.edit_message_text(
-                    chat_id=task.chat_id,
-                    message_id=task.message_id,
+                    chat_id=task["chat_id"],
+                    message_id=task["message_id"],
                     text=message_text, 
                     parse_mode="Markdown",
                     disable_web_page_preview=True)
