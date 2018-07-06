@@ -32,6 +32,22 @@ def start(bot, update):
         message.get(db),
         parse_mode="Markdown",
         disable_web_page_preview=True)
+
+
+def stats(bot, update):
+    if update.message.from_user.id != ADMIN_ID:
+        return
+    global db
+    sent_message = bot.send_message(
+        chat_id=update.message.chat.id,
+        text=message.get(db),
+        parse_mode="Markdown",
+        disable_web_page_preview=True
+    )
+    db.tasks.insert_one({
+        "chat_id": sent_message.chat.id,
+        "message_id": sent_message.message_id
+    })
     
 
 def error(bot, update, info):
@@ -44,7 +60,7 @@ def main():
     dp = updater.dispatcher
 
     dp.add_handler(CommandHandler("start", start))
-    # dp.add_handler(CommandHandler("send", send_updatable))
+    dp.add_handler(CommandHandler("stats", stats))
 
     dp.add_error_handler(error)
 
