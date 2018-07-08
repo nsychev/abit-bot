@@ -184,7 +184,7 @@ def generate_page():
 
         abits.append(abit)
 
-    abits.sort(key=lambda abit: (abit["priority"], -abit["results"]["sum"]))
+    abits.sort(key=lambda abit: (abit["priority"], -abit["results"]["sum"], abit["full_name"]))
 
     id_budget = 1
     id_quota = 1
