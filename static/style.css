@@ -9,7 +9,7 @@ table {
     display: block;
     overflow-x: auto;
     white-space: nowrap;
-    border-bottom: 2px solid black;
+    border-bottom: 1px solid black;
     vertical-align: middle;
 }
 
@@ -33,6 +33,7 @@ abbr {
     background-color: white;
     border-radius: 4px;
     padding: 2px;
+    text-shadow: 0px 0px 2px black;
     display: inline-block;
     font-style: normal;
     font-variant: normal;
