@@ -173,7 +173,7 @@ def generate_page():
             abit["olymp"]["status"] = "победитель" if abit["olymp"]["winner"] else "призер"
             abit["ticket_style"] = ("silver" if abit["olymp"]["level"] == 2 else "gold") + " medal"
 
-        if abit["category"] in ["quota", "exams"]:
+        if abit["category"] in ["quota", "exams"] and abit["exam_type"] == "ЕГЭ":
             plain_sum = abit["results"]["math"] + abit["results"]["cs"] + abit["results"]["rus"]
             if plain_sum >= 290:
                 abit["ticket_style"] = "gold medal"
