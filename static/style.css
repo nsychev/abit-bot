@@ -1,0 +1,137 @@
+@import "https://use.fontawesome.com/releases/v5.1.0/css/all.css";
+
+body {
+    font-family: Arial;
+    font-size: 0.8rem;
+}
+
+table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    border-bottom: 2px solid black;
+}
+
+thead th {
+    padding-bottom: 0.3rem;
+    border-bottom: 2px solid black;
+}
+
+abbr {
+    text-decoration: none;
+    border-bottom: 1px dashed black;
+}
+
+@media (-moz-touch-enabled: 1), (pointer:coarse) {
+    abbr {
+        border-bottom: none;
+    }
+}
+
+.medal::before {
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    content: "\f5a2";
+}
+
+.gold.medal::before {
+    color: #ffd700;
+}
+
+.silver.medal::before {
+    color: #c0c0c0;
+}
+
+.bronze.medal::before {
+    color: #cd7f32;
+}
+
+.olymp-0-win {
+    background-color: #e06666;
+}
+
+.olymp-0-prz {
+    background-color: #ea9999;
+}
+
+.olymp-1-win {
+    background-color: #ffd966;
+}
+
+.olymp-1-prz {
+    background-color: #ffe599;
+}
+
+.olymp-2-win {
+    background-color: #93c47d;
+}
+
+.mark-True {
+    background-color: #b7e1cd;
+}
+
+.entr-ok.enter-has-orig {
+    background-color: #a4c2f4;
+}
+
+.entr-ok {
+    background-color: #b6d7a8;
+}
+
+.entr-maybe {
+    background-color: #ffe599;
+}
+
+.entr-no {
+    color: #aaa;
+}
+
+table {
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+td {
+    padding: 3px 5px;
+}
+
+td:nth-child(1), td:nth-child(4), td:nth-child(5), td:nth-child(6), td:nth-child(7),
+td:nth-child(8), td:nth-child(9), td:nth-child(10), td:nth-child(13), td:nth-child(15), td:nth-child(16) {
+    text-align: center;
+}
+
+td:nth-child(4), td:nth-child(5), td:nth-child(6), td:nth-child(7), td:nth-child(8), td:nth-child(9), td:nth-child(10) {
+    width: 40px;
+}
+
+td:nth-child(15), td:nth-child(16) {
+    width: 70px;
+}
+
+.legend {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    border-bottom: 2px solid black;
+}
+
+.legend p {
+    margin: 10px 0;
+}
+
+.legend p > span {
+    margin-right: 1rem;
+}
+
+.legend p > span:nth-child(1) {
+    font-weight: bold;
+}
+
+h3 {
+    margin: 10px 0;
+}

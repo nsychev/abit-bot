@@ -2,4 +2,5 @@ python-telegram-bot
 pymongo
 beautifulsoup4
 requests
+jinja2
 

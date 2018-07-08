@@ -12,9 +12,10 @@ def ending(num, end1, end2, end5):
 
 
 def get(db):
-    abits = db.abits.count_documents({})
+    abits = db.abits.count_documents({"category": {"$ne": "paid"}})
     quota = db.abits.count_documents({"category": "quota"})
     olymp = db.abits.count_documents({"category": "olymp"})
+    paid = db.abits.count_documents({"category": "paid"})
 
     win0 = db.abits.count_documents({"olymp.level": 0, "olymp.winner": True})
     prz0 = db.abits.count_documents({"olymp.level": 0, "olymp.winner": False})
@@ -35,7 +36,9 @@ I уровень: *{win1}* победител{ending(win1, "ь", "я", "ей")} 
 II уровень: *{win2}* победител{ending(win2, "ь", "я", "ей")}
 
 Всего [{abits} абитуриент{ending(abits, "", "а", "ов")}]\
-(https://ctd.page.link/enroll2018), в том числе *{quota}*\
+(https://abit.nsychev.ru), в том числе *{quota}*\
  — на места в пределах особой квоты
+ 
+На контракт подано {paid} заявлени{ending(abits, "е", "я", "й")}
  
 _Обновлено в {time}_ [ботом](https://github.com/nsychev/abit-bot) _от_ @nsychev'''

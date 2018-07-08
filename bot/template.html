@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width" />
+
+    <title>Приемная кампания КТ 2018</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th><abbr style="Студенческий билет: золотой (15000), серебряный (1000), бронзовый (7000)">Б</abbr></abbr></th>
+                <th>Фамилия, имя, отчество</th>
+                <th><abbr title="БВИ — без вступительных испытаний | ОК — особая квота | Б — общий конкурс | К — контракт">Тип</abbr></th>
+                <th><abbr title="ЕГЭ — Единый государственный экзамен | ВИ — вступительные испытания Университета ИТМО">Экз</abbr></th>
+                <th>Всего</th>
+                <th><abbr title="Русский язык">Рус</abbr></th>
+                <th><abbr title="Математика">Мат</abbr></th>
+                <th><abbr title="Информатика">Инф</abbr></th>
+                <th><abbr title="Индивидуальные достижения">ИД</abbr></th>
+                <th>Олимпиада</th>
+                <th>Предмет</th>
+                <th><abbr title="Уровень">Ур</abbr></th>
+                <th>Статус</th>
+                <th><abbr title="Наличие оригинала аттестата">Аттестат</abbr></th>
+                <th><abbr title="Наличие согласия на зачисление">Согласие</abbr></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for abit in abits %}
+            <tr>
+                <td class="{{ abit.entr_style }}">{{ abit.id }}</td>
+                <td class="{{ abit.entr_style }}"><i class="{{ abit.ticket_style }}"></i></td>
+                <td class="{{ abit.entr_style }}">{{ abit.full_name }}</td>
+                <td class="{{ abit.entr_style }}">{{ abit.entr_type }}</td>
+                <td>{{ abit.exam_type }}</td>
+                <td>{{ abit.results.sum }}</td>
+                <td>{{ abit.results.rus }}</td>
+                <td>{{ abit.results.math }}</td>
+                <td>{{ abit.results.cs }}</td>
+                <td>{{ abit.results.ach }}</td>
+                <td class="{{ abit.olymp_style }}">
+                    {% if abit.olymp %} {{ abit.olymp.name }} {% endif %}
+                </td>
+                <td class="{{ abit.olymp_style }}">
+                    {% if abit.olymp %} {{ abit.olymp.subject }} {% endif %}
+                </td>
+                <td class="{{ abit.olymp_style }}">
+                    {% if abit.olymp %} {{ abit.olymp.level_roman }} {% endif %}
+                </td>
+                <td class="{{ abit.olymp_style }}">
+                    {% if abit.olymp %} {{ abit.olymp.status }} {% endif %}
+                </td>
+                <td class="mark-{{ abit.has_orig }}">{{ abit.has_orig_word }}</td>
+                <td class="mark-{{ abit.agreed }}">{{ abit.agreed_word }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    
+    <h3>Легенда</h3>
+    <div class="legend">
+        <p>
+            <span>Билет</span>
+            <span><i class="gold medal"></i> Золотой (10 000)</span>
+            <span><i class="silver medal"></i> Серебряный (10 000)</span>
+            <span><i class="bronze medal"></i> Бронзовый (10 000)</span>
+        </p>
+
+        <p>
+            <span>Тип поступления</span>
+            <span><b>БВИ</b> без вступительных испытаний</span>
+            <span><b>ОК</b> особая квота</span>
+            <span><b>Б</b> общий конкурс</span>
+            <span><b>К</b> контракт</span>
+        </p>
+
+        <p>
+            <span>Тип экзамена</span>
+            <span><b>ЕГЭ</b> Единый государственный экзамен</span>
+            <span><b>ВИ</b> вступительные испытания Университета ИТМО</span>
+        </p>
+
+        <p>
+            <span>Экзамены</span>
+            <span><b>Рус</b> русский язык</span>
+            <span><b>Мат</b> математика</span>
+            <span><b>Инф</b> информатика</span>
+            <span><b>ИД</b> индивидуальные достижения</span>
+        </p>
+    </div>
+
+    <p class="copyright">Development: Copyright &copy; <a href="https://t.me/nsychev">Nikita Sychev</a>, 2018</p>
+    <p class="copyright">Data collected from public source: <a href="https://abit.ifmo.ru">abit.ifmo.ru</a></p>
+</body>
+</html>
