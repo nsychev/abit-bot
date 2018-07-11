@@ -6,6 +6,7 @@ import logging
 from config import *
 import message
 from pymongo import MongoClient
+from datetime import datetime, timedelta
 
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -16,17 +17,20 @@ db = client.db
 
 
 def only_pm(func):
-    def inner(bot, update):
+    def inner(bot, update, *args, **kwargs):
         if not update.message:
             return
         if update.message.chat.id != update.message.from_user.id:
             return
-        return func(bot, update)
+        return func(bot, update, *args, **kwargs)
     return inner
 
 
 @only_pm
-def start(bot, update):
+def start(bot, update, args):
+    if len(args) == 1 and args[0] == "bet":
+        update.message.reply_text("Сделай ставку на число БВИ: /bet [число]\nВсе ставки — /bets\n\nСтавку можно поставить и поменять до 13 июля 12:00 MSK", parse_mode="Markdown")
+        return
     global db
     update.message.reply_text(
         message.get(db),
@@ -50,6 +54,55 @@ def stats(bot, update):
     })
     
 
+@only_pm
+def bet(bot, update, args):
+    if datetime.now() >= datetime(2018, 7, 13, 9, 0, 0): # UTC
+        update.message.reply_text("\u274c Ставки сделаны, ставок больше нет")
+        return
+
+    if len(args) != 1:
+        update.message.reply_text("Сделать ставку на число БВИ: /bet [число]\nСтавку можно менять до 13 июля 12:00", parse_mode="Markdown")
+        return
+    try:
+        num = int(args[0])
+    except:
+        update.message.reply_text("Твоя ставка не похожа на число :( Напиши /bet [число] (без квадратных скобок)", parse_mode="Markdown")
+        return
+
+    user = update.message.from_user
+    uid = user.id
+    display_name = ""
+    if user.username:
+        display_name = "@" + user.username
+    else:
+        display_name = user.first_name
+        if user.last_name:
+            display_name += " " + user.last_name
+
+    db.bets.find_one_and_update(
+        {"id": uid}, 
+        {"$set": {
+            "id": uid,
+            "display_name": display_name,
+            "bet": num,
+            "timestamp": datetime.now() + timedelta(hours=3)
+        }},
+        upsert=True
+    )
+
+    update.message.reply_text("Ставка сделана! Если хочешь, можешь поменять её, просто повторив команду с новым числом\n\nВсе ставки — /bets")
+    
+
+@only_pm
+def bets(bot, update):
+    message = "<b>Список сделанных ставок</b>\n\n"
+    
+    for bet in db.bets.find({}, sort=[("bet", 1), ("timestamp", 1)]):
+        message += f"{bet['display_name']} — {bet['bet']} [{bet['timestamp'].strftime('%d.%m %H:%M')}]\n"
+    
+    update.message.reply_text(message, parse_mode="HTML")
+
+
 def error(bot, update, info):
     logger.warning('Update "%s" caused error "%s"', update, info)
 
@@ -59,8 +112,10 @@ def main():
 
     dp = updater.dispatcher
 
-    dp.add_handler(CommandHandler("start", start))
+    dp.add_handler(CommandHandler("start", start, pass_args=True))
     dp.add_handler(CommandHandler("stats", stats))
+    dp.add_handler(CommandHandler("bet", bet, pass_args=True))
+    dp.add_handler(CommandHandler("bets", bets))
 
     dp.add_error_handler(error)
 

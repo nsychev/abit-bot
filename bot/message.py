@@ -28,6 +28,7 @@ def get(db):
     return f'''Подано *{olymp}* заявлени{ending(olymp, "е", "я", "й")} БВИ
 
 [FAQ для абитуриента](https://ctd.page.link/faq)
+[Ставки на БВИ](https://t.me/ct_abit_bot?start=bet)
 
 Всерос и etc: *{win0}* победител{ending(win0, "ь", "я", "ей")} и *{prz0}* \
 призер{ending(prz0, "", "а", "ов")}
