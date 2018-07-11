@@ -31,10 +31,14 @@ def start(bot, update, args):
     if len(args) == 1 and args[0] == "bet":
         update.message.reply_text("Сделай ставку на число БВИ: /bet [число]\nВсе ставки — /bets\n\nСтавку можно поставить и поменять до 13 июля 12:00 MSK", parse_mode="Markdown")
         return
-    global db
     update.message.reply_text(
-        message.get(db),
-        parse_mode="Markdown",
+        '''Привет! Я бот для абитуриентов КТ 2018
+        
+Статистика приема в чате @abit_ct и <a href="https://abit.nsychev.ru">в таблице</a>
+/bet — ставки на число БВИ
+
+Сделал @nsychev, <a href="https://github.com/nsychev/abit-bot">исходники на гитхабе</a>''',
+        parse_mode="HTML",
         disable_web_page_preview=True)
 
 
