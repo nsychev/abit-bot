@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 
 
 def ending(num, end1, end2, end5):
-    if (num % 100) in range(11, 15):
+    if 11 <= num % 100 <= 14:
         return end5
     if num % 10 == 1:
         return end1
@@ -39,6 +39,6 @@ II уровень: *{win2}* победител{ending(win2, "ь", "я", "ей")}
 (https://abit.nsychev.ru), в том числе *{quota}*\
  — на места в пределах особой квоты
  
-На контракт подано {paid} заявлени{ending(abits, "е", "я", "й")}
+На контракт подано {paid} заявлени{ending(paid, "е", "я", "й")}
  
 _Обновлено в {time}_ [ботом](https://github.com/nsychev/abit-bot) _от_ @nsychev'''

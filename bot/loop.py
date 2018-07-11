@@ -109,12 +109,6 @@ def load_paid():
             upsert=True
         )
 
-    try:
-        raise Exception(str(paid_lists))
-    except:
-        traceback.print_exc()
-        print(file=sys.stderr, flush=True)
-
 
 def update_messages():
     global db
@@ -246,7 +240,7 @@ def main():
             generate_page()
         except:
             traceback.print_exc()
-            print(file=sys.stderr, flush=True)
+            sys.stderr.flush()
         
         sleep(120)
 
