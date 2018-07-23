@@ -20,7 +20,8 @@ template = Template(open("template.html", "r", encoding="utf-8").read())
 CATEGORIES = {
     "без вступительных испытаний": "olymp",
     "на бюджетное место в пределах особой квоты": "quota",
-    "по общему конкурсу": "exams"
+    "по общему конкурсу": "exams",
+    "на контрактной основе": "paid"
 }
 
 
@@ -52,7 +53,7 @@ def parse_olymp(text):
     }
 
 
-def load_budget():
+def load_lists():
     global db
 
     ranking = fetcher.get(RANKING_URL)[2:]  # cut header off
@@ -66,7 +67,10 @@ def load_budget():
         agreed, adv, olymp, status = line
 
         db.abits.find_one_and_update(
-            {"full_name": full_name},
+            {
+                "full_name": full_name, 
+                "category": CATEGORIES.get(category, category)
+            },
             {"$set": {
                 "full_name": full_name,
                 "category": CATEGORIES.get(category, category),
@@ -77,33 +81,6 @@ def load_budget():
                 "adv": "Да" in adv,
                 "olymp": parse_olymp(olymp),
                 "status": status,
-                "updated": True
-            }},
-            upsert=True
-        )
-
-
-def load_paid():
-    global db
-
-    paid_lists = fetcher.get(STATS_URL_PAID)[1:] # cut header off
-
-    for line in paid_lists:
-        if len(line) != 10:
-            raise Exception("Bad line from abit.ifmo.ru: " + str(line))
-
-        uid, full_name, order, program, reason, exam_type, \
-        sum, sum_exams, has_orig, agreed = line
-
-        db.abits.find_one_and_update(
-            {"full_name": full_name},
-            {"$set": {
-                "full_name": full_name,
-                "category": "paid",
-                "exam_type": exam_type,
-                "results": {"sum": safe_int(sum), "ach": safe_int(sum) - safe_int(sum_exams)},
-                "has_orig": "Да" in has_orig,
-                "agreed": "Да" in agreed,
                 "updated": True
             }},
             upsert=True
@@ -232,8 +209,7 @@ def main():
     while True:     
         try:
             db.abits.update_many({}, {"$set": {"updated": False}})
-            load_budget()
-            load_paid()
+            load_lists()
             db.abits.delete_many({"updated": False})
 
             update_messages()
