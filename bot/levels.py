@@ -8,5 +8,5 @@ with open("levels.csv", newline="", encoding="utf-8") as csvfile:
 
 
 def get(olymp):
-    return data.get(olymp, 3)
+    return data.get(olymp, 4)
 

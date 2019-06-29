@@ -29,10 +29,10 @@ def only_pm(func):
 @only_pm
 def start(bot, update, args):
     if len(args) == 1 and args[0] == "bet":
-        update.message.reply_text("Сделай ставку на число БВИ: /bet [число]\nВсе ставки — /bets\n\nСтавку можно поставить и поменять до 13 июля 12:00 MSK", parse_mode="Markdown")
+        update.message.reply_text("Сделай ставку на число БВИ: /bet [число]\nВсе ставки — /bets\n\nСтавку можно поставить и поменять до 10 июля 23:59 MSK", parse_mode="Markdown")
         return
     update.message.reply_text(
-        '''Привет! Я бот для абитуриентов КТ 2018
+        '''Привет! Я бот для абитуриентов КТ 2019
         
 Статистика приема в чате @abit_ct и <a href="https://abit.nsychev.ru">в таблице</a>
 /bet — ставки на число БВИ
@@ -60,12 +60,12 @@ def stats(bot, update):
 
 @only_pm
 def bet(bot, update, args):
-    if datetime.now() >= datetime(2018, 7, 13, 9, 0, 0): # UTC
+    if datetime.now() >= datetime(2019, 7, 10, 21, 0, 0): # UTC
         update.message.reply_text("\u274c Ставки сделаны, ставок больше нет")
         return
 
     if len(args) != 1:
-        update.message.reply_text("Сделать ставку на число БВИ: /bet [число]\nСтавку можно менять до 13 июля 12:00", parse_mode="Markdown")
+        update.message.reply_text("Сделать ставку на число БВИ: /bet [число]\nСтавку можно менять до 10 июля 23:59", parse_mode="Markdown")
         return
     try:
         num = int(args[0])

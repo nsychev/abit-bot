@@ -17,24 +17,32 @@ def get(db):
     olymp = db.abits.count_documents({"category": "olymp"})
     paid = db.abits.count_documents({"category": "paid"})
 
+    bets = db.bets.count_documents({})
+
     win0 = db.abits.count_documents({"olymp.level": 0, "olymp.winner": True})
     prz0 = db.abits.count_documents({"olymp.level": 0, "olymp.winner": False})
     win1 = db.abits.count_documents({"olymp.level": 1, "olymp.winner": True})
     prz1 = db.abits.count_documents({"olymp.level": 1, "olymp.winner": False})
-    win2 = db.abits.count_documents({"olymp.level": 2})
+    win2 = db.abits.count_documents({"olymp.level": 2, "olymp.winner": True})
+    prz2 = db.abits.count_documents({"olymp.level": 2, "olymp.winner": False})
+    win3 = db.abits.count_documents({"olymp.level": 3, "olymp.winner": True})
+    prz3 = db.abits.count_documents({"olymp.level": 3, "olymp.winner": False})
 
     time = (datetime.now() + timedelta(hours=3)).strftime("%H:%M")
 
     return f'''Подано *{olymp}* заявлени{ending(olymp, "е", "я", "й")} БВИ
 
-[FAQ для абитуриента](https://ctd.page.link/faq)
-[Ставки на БВИ](https://t.me/ct_abit_bot?start=bet)
+[Прошлогоднее FAQ для абитуриента](https://ctd.page.link/faq)
+[Ставки на БВИ](https://t.me/ct_abit_bot?start=bet) (сейчас — {bets})
 
 Всерос и etc: *{win0}* победител{ending(win0, "ь", "я", "ей")} и *{prz0}* \
 призер{ending(prz0, "", "а", "ов")}
 I уровень: *{win1}* победител{ending(win1, "ь", "я", "ей")} и *{prz1}* \
 призер{ending(prz1, "", "а", "ов")}
-II уровень: *{win2}* победител{ending(win2, "ь", "я", "ей")}
+II уровень: *{win2}* победител{ending(win2, "ь", "я", "ей")} и *{prz2}* \
+призер{ending(prz2, "", "а", "ов")}
+III уровень: *{win3}* победител{ending(win3, "ь", "я", "ей")} и *{prz3}* \
+призер{ending(prz3, "", "а", "ов")}
 
 Всего [{abits} абитуриент{ending(abits, "", "а", "ов")}]\
 (https://abit.nsychev.ru), в том числе *{quota}*\

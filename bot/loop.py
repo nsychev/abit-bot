@@ -29,22 +29,36 @@ def safe_int(value):
     return int(value) if value is not None else 0
 
 
+def cut_options(value, options):
+    for option in options:
+        if value.endswith(option):
+            return value[:-len(option)-1], option
+    raise KeyError("Pattern did not match: " + value)
+
+
 def parse_olymp(text):
     if text is None or text == "":
         return None
 
-    *olymp, status = text.split()
-    olymp = " ".join(olymp)
+    olymp, status = cut_options(
+        text.strip(),
+        ["победитель", "призер"]
+    )
     winner = status == "победитель"
+
     level = levels.get(olymp)
 
-    last_word = olymp.split()[-1]
-    if last_word in ["математика", "информатика"]:
-        subject = last_word
-        olymp = " ".join(olymp.split()[:-1])
-    else:
+    try:
+        olymp, subject = cut_options(
+            olymp,
+            ["математика", "информатика", "информационные технологии"]
+        )
+    except KeyError:
         subject = ""
-    
+
+    if level == 4:
+        print("Not found:", olymp, "|", subject, "|", winner, "|", level, file=sys.stderr, flush=True)
+
     return {
         "name": olymp,
         "subject": subject,
@@ -116,13 +130,13 @@ def generate_page():
         abit["exam_type"] = abit["exam_type"] or ""
 
         if abit["category"] == "quota":
-            abit["priority"] = 30
+            abit["priority"] = 40
             abit["entr_type"] = "ОК"
         elif abit["category"] == "paid":
-            abit["priority"] = 50
+            abit["priority"] = 60
             abit["entr_type"] = "К"
         elif abit["category"] == "exams":
-            abit["priority"] = 40
+            abit["priority"] = 50
             abit["entr_type"] = "Б"
         else: # abit["category"] == "olymp"
             abit["priority"] = abit["olymp"]["level"] * 10
@@ -134,7 +148,7 @@ def generate_page():
             del abit["results"]["rus"]
             del abit["results"]["cs"]
 
-            abit["olymp"]["level_roman"] = {0: "×", 1: "I", 2: "II"}[abit["olymp"]["level"]]
+            abit["olymp"]["level_roman"] = {0: "×", 1: "I", 2: "II", 3: "III"}[abit["olymp"]["level"]]
 
             abit["olymp_style"] = "olymp-{}-{}".format(
                 abit["olymp"]["level"],
@@ -142,7 +156,14 @@ def generate_page():
             )
 
             abit["olymp"]["status"] = "победитель" if abit["olymp"]["winner"] else "призер"
-            abit["ticket_style"] = ("silver" if abit["olymp"]["level"] == 2 else "gold") + " medal"
+            if abit["olymp"]["level"] <= 1:
+                medal = "gold"
+            elif abit["olymp"]["level"] == 2:
+                medal = "silver"
+            else:
+                medal = None
+            if medal:
+                abit["ticket_style"] = medal + " medal"
 
         if abit["category"] in ["quota", "exams"] and abit["exam_type"] == "ЕГЭ":
             plain_sum = abit["results"]["math"] + abit["results"]["cs"] + abit["results"]["rus"]
